@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Offline AI — Portfolio &amp; Static Interactive Demo</title>
+  <meta name="description" content="Portfolio demonstration of a zero-cloud, 100% offline ChatGPT-style local AI interface running on Windows 11 with Ollama and Qwen 2.5 1.5B.">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Prominent Public Demo Notice Banner -->
+  <aside class="demo-alert-banner" role="region" aria-label="Public Demo Status Warning">
+    <div class="container demo-alert-content">
+      <span class="demo-alert-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+        PUBLIC DEMO — SIMULATED RESPONSES ONLY
+      </span>
+      <p>
+        This public portfolio site is a client-side static demonstration. The real AI model runs exclusively on the developer's Windows laptop with Wi-Fi disabled. <strong>No AI model is hosted on this web server, and visitor prompts are never transmitted or saved.</strong>
+      </p>
+    </div>
+  </aside>
+
+  <!-- Sticky Header Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#hero" class="logo-wrapper">
+        <div class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        </div>
+        <span class="logo-text">Private Offline AI</span>
+        <span class="logo-badge">Simulated Demo</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#demo">Interactive Demo</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#technology">Tech Stack</a></li>
+          <li><a href="#hardware">Hardware &amp; Model</a></li>
+          <li><a href="#privacy">Privacy &amp; Security</a></li>
+          <li><a href="#run-locally">Run Locally</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn-icon" id="themeToggle" type="button" aria-label="Switch to light mode" title="Toggle Theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+        </button>
+        <a href="#links" class="btn btn-secondary btn-sm" title="View Source Placeholder">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          Repository
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-pill">
+          <span class="pulse-dot"></span>
+          <span>100% Offline Capable &bull; Bound to 127.0.0.1</span>
+        </div>
+        <h1 class="hero-title">Private Offline AI</h1>
+        <p class="hero-lead">
+          A zero-cloud, privacy-engineered ChatGPT-style local interface. Real AI inference executes exclusively on the developer's local Windows laptop with hardware acceleration, while this public site serves as an honest, fully sandboxed interactive portfolio demonstration.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#demo" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            Try Interactive Demo
+          </a>
+          <a href="#architecture" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            Inspect Architecture
+          </a>
+          <a href="#run-locally" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+            Run Real Version Locally
+          </a>
+        </div>
+
+        <div class="hero-highlights">
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+            </div>
+            <h4>Strict Isolation</h4>
+            <p>Runs with physical Wi-Fi disconnected. Packets never leave the Windows loopback network.</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"/></svg>
+            </div>
+            <h4>Zero Disk Logging</h4>
+            <p>Prompts and generated responses live only in volatile RAM and are never persisted to disk or databases.</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z M2 4v16h20V4H2zm4 4h12v2H6V8zm0 4h8v2H6v-2z"/></svg>
+            </div>
+            <h4>Hardware Accelerated</h4>
+            <p>Optimized for AMD Ryzen 5 5600H and NVIDIA GTX 1650 4GB VRAM delivering ~30 tokens/sec.</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2v-2zm0-10h2v8h-2V6z"/></svg>
+            </div>
+            <h4>Transparent Demo</h4>
+            <p>GitHub Pages hosts zero AI models. The demo operates 100% inside your browser sandbox.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="section section-alt" id="overview">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Project Overview</span>
+          <h2 class="section-title">Why Build a Private Offline AI?</h2>
+          <p class="section-description">
+            Cloud AI models offer immense capabilities but require sending proprietary source code, private business records, or personal thoughts to third-party data centers. This project solves that security compromise.
+          </p>
+        </div>
+
+        <div class="privacy-grid">
+          <div class="privacy-card">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+              The Confidentiality Challenge
+            </h3>
+            <p>
+              When working with sensitive medical records, proprietary codebases, intellectual property, or confidential client data, uploading context to remote APIs creates regulatory and operational liability.
+            </p>
+            <ul>
+              <li>Cloud APIs may log queries for training or safety evaluation.</li>
+              <li>Network transmission exposes payloads to man-in-the-middle risks.</li>
+              <li>Internet outages render cloud tools unavailable.</li>
+            </ul>
+          </div>
+
+          <div class="privacy-card highlight">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+              The Local Architecture Solution
+            </h3>
+            <p>
+              By combining an optimized quantized model (<strong>Qwen 2.5 1.5B</strong>), the <strong>Ollama</strong> runtime, a custom zero-dependency <strong>Python</strong> backend, and a reactive frontend, complete ChatGPT-level ergonomics run entirely inside a Windows laptop.
+            </p>
+            <ul>
+              <li><strong>Zero bytes leave the computer:</strong> True loopback isolation.</li>
+              <li><strong>Zero telemetry:</strong> No telemetry SDKs, analytics, or trackers.</li>
+              <li><strong>Zero disk persistence:</strong> Ephemeral volatile RAM context only.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section class="section" id="demo">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Sandboxed Showcase</span>
+          <h2 class="section-title">Interactive Demo Interface</h2>
+          <p class="section-description">
+            Experience the ChatGPT-style interface directly in your browser. All responses below are pre-recorded sample demonstrations stored in client-side memory. <strong>No backend AI is contacted.</strong>
+          </p>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="demo-wrapper">
+          <!-- Top Chat Header -->
+          <div class="demo-header">
+            <div class="demo-model-status">
+              <span class="model-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>
+                Model: <strong>qwen2.5:1.5b</strong>
+              </span>
+              <span class="sim-indicator">Simulated Mode</span>
+              <span class="network-isolated-badge" title="No network calls are made by visitor prompts">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                0 Network Calls
+              </span>
+            </div>
+
+            <div class="demo-header-actions">
+              <button class="btn btn-secondary btn-sm" id="btnNewDemo" type="button" title="Start a fresh demo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                New Demo
+              </button>
+              <button class="btn btn-secondary btn-sm" id="btnClearChat" type="button" title="Clear conversation display">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Curated Prompt Selector Bar -->
+          <div class="curated-prompts-bar">
+            <span class="curated-label">Sample Prompts:</span>
+            <div class="prompt-chips">
+              <button class="prompt-chip" type="button" data-prompt="sql">
+                <span>💬</span> Explain SQL Joins
+              </button>
+              <button class="prompt-chip" type="button" data-prompt="arduino">
+                <span>🤖</span> Arduino Ultrasonic Sensor
+              </button>
+              <button class="prompt-chip" type="button" data-prompt="offline">
+                <span>🔒</span> How Local AI Works Offline
+              </button>
+              <button class="prompt-chip" type="button" data-prompt="ramrom">
+                <span>⚡</span> Difference Between RAM &amp; ROM
+              </button>
+            </div>
+          </div>
+
+          <!-- Chat Stream Messages -->
+          <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+            <!-- Initial Assistant Message -->
+            <div class="message-row assistant">
+              <div class="avatar assistant-avatar" title="Simulated Local AI">AI</div>
+              <div class="message-bubble">
+                <div class="assistant-meta">
+                  <span class="assistant-meta-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    DEMO NOTICE
+                  </span>
+                  <span class="assistant-meta-time">Sandboxed Client-Side</span>
+                </div>
+                <div class="message-body">
+                  <p><strong>Welcome to the Private Offline AI Portfolio Demonstration.</strong></p>
+                  <p>This interactive demonstration is hosted statically on GitHub Pages. To guarantee total isolation, <strong>no AI model is hosted here</strong> and <strong>visitor prompts are never sent over the network</strong>.</p>
+                  <p>You can test the interface using the curated prompts above (SQL joins, Arduino sensor, Local AI architecture, or RAM vs ROM), or type a question to inspect demo handling.</p>
+                  <p><em>To run genuine AI inference locally on your own machine, see the setup guide below.</em></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Composer Box -->
+          <div class="demo-composer-wrapper">
+            <form class="composer-form" id="composerForm">
+              <textarea 
+                class="composer-textarea" 
+                id="composerInput" 
+                rows="1" 
+                placeholder="Type a question or click a curated prompt above..." 
+                aria-label="Message Composer"></textarea>
+              <div class="composer-actions">
+                <button class="send-btn" id="sendBtn" type="submit" aria-label="Send Message" title="Send message (Enter)">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+              </div>
+            </form>
+            <div class="composer-disclaimer">
+              Demo mode: sample responses only. No AI model is running on this public website. Visitor prompts are not transmitted or saved by this application.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture & Separation Visual Diagram -->
+    <section class="section section-alt" id="architecture">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">System Architecture</span>
+          <h2 class="section-title">Visual Architecture &amp; Complete Air Gap</h2>
+          <p class="section-description">
+            The public portfolio website and the real offline AI application are completely separate, isolated environments. There is zero connection, zero network tunneling, and zero data leakage between them.
+          </p>
+        </div>
+
+        <div class="diagram-container">
+          <div class="svg-diagram-wrapper">
+            <!-- Inline SVG Architecture Diagram -->
+            <svg class="arch-svg" viewBox="0 0 940 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture Diagram: Isolation between Public Static Demo and Local Private AI">
+              <defs>
+                <!-- Gradients -->
+                <linearGradient id="publicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1e293b"/>
+                  <stop offset="100%" stop-color="#0f172a"/>
+                </linearGradient>
+                <linearGradient id="privateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#064e3b"/>
+                  <stop offset="100%" stop-color="#022c22"/>
+                </linearGradient>
+                <linearGradient id="blueCard" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1e3a8a"/>
+                  <stop offset="100%" stop-color="#1e293b"/>
+                </linearGradient>
+                <linearGradient id="amberCard" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#78350f"/>
+                  <stop offset="100%" stop-color="#451a03"/>
+                </linearGradient>
+                <linearGradient id="greenCard" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#065f46"/>
+                  <stop offset="100%" stop-color="#047857"/>
+                </linearGradient>
+                <filter id="shadowFilter" x="-5%" y="-5%" width="110%" height="110%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+                </filter>
+              </defs>
+
+              <!-- ZONE 1: PUBLIC DEMO (TOP) -->
+              <rect x="20" y="20" width="900" height="180" rx="14" fill="url(#publicGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadowFilter)"/>
+              <text x="40" y="48" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">PUBLIC STATIC SHOWCASE — HOSTED ON GITHUB PAGES</text>
+              <rect x="760" y="32" width="140" height="24" rx="12" fill="#78350f" stroke="#f59e0b" stroke-width="1"/>
+              <text x="830" y="48" fill="#fef3c7" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">ZERO AI MODEL</text>
+
+              <!-- Flow Step 1: Public Visitor -->
+              <rect x="50" y="75" width="220" height="95" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
+              <text x="70" y="105" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="700">1. Public Visitor</text>
+              <text x="70" y="128" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">Visits GitHub Pages URL</text>
+              <text x="70" y="148" fill="#64748b" font-family="system-ui, sans-serif" font-size="11">Standard browser sandbox</text>
+
+              <!-- Arrow 1 -> 2 -->
+              <path d="M280 122 L330 122" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+              <polygon points="330,117 340,122 330,127" fill="#3b82f6"/>
+
+              <!-- Flow Step 2: GitHub Pages Static Assets -->
+              <rect x="350" y="75" width="240" height="95" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
+              <text x="370" y="105" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="700">2. Static Asset Delivery</text>
+              <text x="370" y="128" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">HTML, CSS &amp; script.js</text>
+              <text x="370" y="148" fill="#64748b" font-family="system-ui, sans-serif" font-size="11">Zero server-side code or APIs</text>
+
+              <!-- Arrow 2 -> 3 -->
+              <path d="M600 122 L650 122" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+              <polygon points="650,117 660,122 650,127" fill="#3b82f6"/>
+
+              <!-- Flow Step 3: Sandboxed Simulation -->
+              <rect x="670" y="75" width="230" height="95" rx="10" fill="url(#amberCard)" stroke="#d97706" stroke-width="1.2"/>
+              <text x="690" y="105" fill="#fef3c7" font-family="system-ui, sans-serif" font-size="14" font-weight="700">3. In-Browser Simulation</text>
+              <text x="690" y="128" fill="#fde68a" font-family="system-ui, sans-serif" font-size="12">Pre-recorded responses in JS</text>
+              <text x="690" y="148" fill="#fcd34d" font-family="system-ui, sans-serif" font-size="11">0 Network requests emitted</text>
+
+              <!-- AIR GAP DIVIDER BARRIER -->
+              <g id="airGap">
+                <rect x="20" y="215" width="900" height="34" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,4"/>
+                <text x="470" y="237" fill="#fecaca" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1.2">
+                  &#x26A0; TOTAL AIR GAP: NO NETWORK CONNECTION &bull; NO TUNNELS &bull; ZERO DATA TRANSMISSION &bull; NO REMOTE PORTS
+                </text>
+              </g>
+
+              <!-- ZONE 2: LOCAL PRIVATE AI (BOTTOM) -->
+              <rect x="20" y="265" width="900" height="195" rx="14" fill="url(#privateGrad)" stroke="#065f46" stroke-width="1.5" filter="url(#shadowFilter)"/>
+              <text x="40" y="293" fill="#6ee7b7" font-family="system-ui, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">LOCAL PRIVATE WORKSTATION — WINDOWS 11 (WI-FI DISABLED)</text>
+              <rect x="740" y="277" width="160" height="24" rx="12" fill="#065f46" stroke="#10b981" stroke-width="1"/>
+              <text x="820" y="293" fill="#ecfdf5" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">REAL MODEL RUNNING</text>
+
+              <!-- Local Step 1: Laptop Browser -->
+              <rect x="50" y="320" width="180" height="115" rx="10" fill="#064e3b" stroke="#059669" stroke-width="1.2"/>
+              <text x="65" y="348" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="700">Author's Browser</text>
+              <text x="65" y="370" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">http://127.0.0.1:8765</text>
+              <text x="65" y="392" fill="#6ee7b7" font-family="system-ui, sans-serif" font-size="11">InPrivate / Incognito</text>
+              <text x="65" y="412" fill="#34d399" font-family="system-ui, sans-serif" font-size="10">Zero disk / browser store</text>
+
+              <!-- Arrow Local 1 -> 2 -->
+              <path d="M235 375 L265 375" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+              <polygon points="265,370 275,375 265,380" fill="#10b981"/>
+
+              <!-- Local Step 2: Python Backend -->
+              <rect x="280" y="320" width="190" height="115" rx="10" fill="#064e3b" stroke="#059669" stroke-width="1.2"/>
+              <text x="295" y="348" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="700">Python Backend</text>
+              <text x="295" y="370" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">app.py (ThreadingHTTPServer)</text>
+              <text x="295" y="392" fill="#6ee7b7" font-family="system-ui, sans-serif" font-size="11">Strict 127.0.0.1 loopback</text>
+              <text x="295" y="412" fill="#34d399" font-family="system-ui, sans-serif" font-size="10">Suppressed request logs</text>
+
+              <!-- Arrow Local 2 -> 3 -->
+              <path d="M475 375 L505 375" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+              <polygon points="505,370 515,375 505,380" fill="#10b981"/>
+
+              <!-- Local Step 3: Ollama Runtime -->
+              <rect x="520" y="320" width="180" height="115" rx="10" fill="#064e3b" stroke="#059669" stroke-width="1.2"/>
+              <text x="535" y="348" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="700">Ollama Runtime</text>
+              <text x="535" y="370" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">http://127.0.0.1:11434</text>
+              <text x="535" y="392" fill="#6ee7b7" font-family="system-ui, sans-serif" font-size="11">Streaming SSE proxy</text>
+              <text x="535" y="412" fill="#34d399" font-family="system-ui, sans-serif" font-size="10">Air-gapped process</text>
+
+              <!-- Arrow Local 3 -> 4 -->
+              <path d="M705 375 L735 375" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+              <polygon points="735,370 745,375 735,380" fill="#10b981"/>
+
+              <!-- Local Step 4: Qwen2.5 on GPU -->
+              <rect x="750" y="320" width="150" height="115" rx="10" fill="url(#greenCard)" stroke="#34d399" stroke-width="1.2"/>
+              <text x="765" y="348" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="700">qwen2.5:1.5b</text>
+              <text x="765" y="370" fill="#d1fae5" font-family="system-ui, sans-serif" font-size="11">NVIDIA GTX 1650</text>
+              <text x="765" y="392" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">Ryzen 5 5600H</text>
+              <text x="765" y="412" fill="#6ee7b7" font-family="system-ui, sans-serif" font-size="10">~30 tokens/sec live</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="arch-cards-grid">
+          <div class="arch-card">
+            <div class="arch-card-header">
+              <span class="badge-public">Public Demo Flow</span>
+              <h3>GitHub Pages Sandbox</h3>
+            </div>
+            <ul>
+              <li><strong>Zero Execution of Models:</strong> No neural network or Python process executes on GitHub Pages.</li>
+              <li><strong>Zero Outbound Exfiltration:</strong> Visitor prompts are processed solely by in-browser JavaScript string matching and never sent to any server.</li>
+              <li><strong>Zero Conversation Persistence:</strong> No cookies, no localStorage, no sessionStorage. Refreshing the browser tab completely resets state.</li>
+              <li><strong>Standard Web Server Logs:</strong> Static hosting by GitHub Pages may record standard HTTP connection metadata (IP addresses, User-Agent) for platform infrastructure.</li>
+            </ul>
+          </div>
+
+          <div class="arch-card">
+            <div class="arch-card-header">
+              <span class="badge-private">Local AI Flow</span>
+              <h3>Air-Gapped Laptop Architecture</h3>
+            </div>
+            <ul>
+              <li><strong>Works with Wi-Fi Disabled:</strong> Confirmed fully functional with airplane mode enabled and physical network adapters disconnected.</li>
+              <li><strong>Strict Loopback Binding:</strong> Python server binds only to <code>127.0.0.1:8765</code>; Ollama binds to <code>127.0.0.1:11434</code>. Packets cannot leave the machine.</li>
+              <li><strong>Zero Disk Writes:</strong> Suppressed request logging; no chat history database; prompts and responses reside solely in volatile RAM.</li>
+              <li><strong>Hardware Native Acceleration:</strong> Model weights reside in the 4 GB VRAM of the NVIDIA GeForce GTX 1650 for real-time matrix math.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Deep Dive</span>
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-description">
+            Examining the mechanics behind the local offline application and comparing it with this static portfolio showcase.
+          </p>
+        </div>
+
+        <div class="run-steps">
+          <div class="run-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Local Model Packaging &amp; Quantization</h3>
+              <p>
+                In the real application, the AI model is <strong>Qwen 2.5 1.5B</strong>, quantized using 4-bit integer weights (Q4_K_M). This reduces the memory footprint to ~986 MB, allowing the entire neural network to fit comfortably inside the 4 GB VRAM of an entry-level mobile GPU (GTX 1650).
+              </p>
+            </div>
+          </div>
+
+          <div class="run-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Zero-Dependency Python Micro-Gateway</h3>
+              <p>
+                The local backend uses Python 3's built-in <code>ThreadingHTTPServer</code> and <code>urllib.request</code>. It enforces strict HTTP origin headers, sends <code>Cache-Control: no-store, no-cache</code> security headers, streams Server-Sent Events (SSE) directly from Ollama to the browser, and explicitly silences server access logs to guarantee zero prompt traces on disk.
+              </p>
+            </div>
+          </div>
+
+          <div class="run-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Public Portfolio Simulation Layer</h3>
+              <p>
+                For this public GitHub Pages portfolio, the client-side JavaScript implements an honest mock chat. It provides curated real outputs for technical questions (SQL, C++, local AI principles, computer architecture) and clearly alerts visitors when arbitrary text is submitted that no real AI model is executing online.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology Stack Section -->
+    <section class="section section-alt" id="technology">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Engineering Foundation</span>
+          <h2 class="section-title">Technology Stack</h2>
+          <p class="section-description">
+            A minimalist, highly performant toolchain built with zero external framework overhead.
+          </p>
+        </div>
+
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tech-card-header">
+              <div class="tech-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              </div>
+              <div>
+                <h3>Python 3</h3>
+                <span class="tech-role">Local Backend Architecture</span>
+              </div>
+            </div>
+            <p>
+              Standard library only: <code>http.server.ThreadingHTTPServer</code>, <code>urllib.request</code>, and <code>json</code>. Zero external pip dependencies, minimizing attack surface and simplifying auditability.
+            </p>
+          </div>
+
+          <div class="tech-card">
+            <div class="tech-card-header">
+              <div class="tech-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z M2 4v16h20V4H2zm4 4h12v2H6V8zm0 4h8v2H6v-2z"/></svg>
+              </div>
+              <div>
+                <h3>Ollama Runtime</h3>
+                <span class="tech-role">Local LLM Execution Engine</span>
+              </div>
+            </div>
+            <p>
+              Underlying llama.cpp engine handling GGUF model memory mapping, layer offloading to GPU VRAM, and loopback REST API communication on <code>127.0.0.1:11434</code>.
+            </p>
+          </div>
+
+          <div class="tech-card">
+            <div class="tech-card-header">
+              <div class="tech-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>
+              </div>
+              <div>
+                <h3>Qwen 2.5 1.5B</h3>
+                <span class="tech-role">Quantized Language Model</span>
+              </div>
+            </div>
+            <p>
+              Alibaba Cloud's Qwen 2.5 small language model (1.5 billion parameters) running 4-bit quantization (Q4_K_M). Exceptional coding, math, and reasoning performance within a bounded 2,048-token context.
+            </p>
+          </div>
+
+          <div class="tech-card">
+            <div class="tech-card-header">
+              <div class="tech-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+              </div>
+              <div>
+                <h3>HTML5, CSS3 &amp; Vanilla JS</h3>
+                <span class="tech-role">Zero-Dependency Frontend</span>
+              </div>
+            </div>
+            <p>
+              Handcrafted responsive UI. No React, Vue, Tailwind, Bootstrap, or jQuery. Inline SVG icons and system fonts eliminate CDN network requests entirely.
+            </p>
+          </div>
+
+          <div class="tech-card">
+            <div class="tech-card-header">
+              <div class="tech-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              </div>
+              <div>
+                <h3>Windows Defender Firewall</h3>
+                <span class="tech-role">Network Security Isolation</span>
+              </div>
+            </div>
+            <p>
+              Hardened loopback boundaries. Server listens only on <code>127.0.0.1</code>. Outbound blocking rules can be verified to prove zero network egress during inference.
+            </p>
+          </div>
+
+          <div class="tech-card">
+            <div class="tech-card-header">
+              <div class="tech-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+              </div>
+              <div>
+                <h3>GitHub Pages</h3>
+                <span class="tech-role">Static Hosting Layer</span>
+              </div>
+            </div>
+            <p>
+              High-availability global distribution for the portfolio demonstration. Deployed with <code>.nojekyll</code> to ensure direct static file serving.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hardware and Model Details Section -->
+    <section class="section" id="hardware">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Specifications</span>
+          <h2 class="section-title">Hardware &amp; Model Specifications</h2>
+          <p class="section-description">
+            The local application is deliberately calibrated to run smoothly on accessible mid-range gaming laptop hardware without requiring expensive enterprise cloud instances.
+          </p>
+        </div>
+
+        <div class="specs-table-wrapper">
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Component / Metric</th>
+                <th>Target Specification</th>
+                <th>Architectural Significance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="spec-name">Operating System</td>
+                <td class="spec-val">Windows 11 Home (64-bit)</td>
+                <td class="spec-val">Standard consumer OS environment with local loopback networking.</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Processor (CPU)</td>
+                <td class="spec-val">AMD Ryzen 5 5600H (6 Cores / 12 Threads)</td>
+                <td class="spec-val">Handles HTTP request routing, tokenizer execution, and context management.</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Graphics Card (GPU)</td>
+                <td class="spec-val">NVIDIA GeForce GTX 1650 (4 GB GDDR6 VRAM)</td>
+                <td class="spec-val">CUDA layer offloading; loads entire 986 MB model weights into dedicated VRAM.</td>
+              </tr>
+              <tr>
+                <td class="spec-name">System Memory (RAM)</td>
+                <td class="spec-val">8 GB DDR4</td>
+                <td class="spec-val">Provides working memory for OS, browser tab, and volatile conversation tokens.</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Model Architecture</td>
+                <td class="spec-val">qwen2.5:1.5b (Q4_K_M quantization)</td>
+                <td class="spec-val">Optimized tensor quantization balancing prompt reasoning and low memory footprint.</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Context Window</td>
+                <td class="spec-val">Bounded to 2,048 Tokens</td>
+                <td class="spec-val">Prevents memory pressure spikes and ensures consistent token generation throughput.</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Inference Throughput</td>
+                <td class="spec-val">~25 - 35 tokens / second</td>
+                <td class="spec-val">Comfortable reading speed, faster than real-time human perception.</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Local Endpoints</td>
+                <td class="spec-val">App: <code>127.0.0.1:8765</code> &bull; Ollama: <code>127.0.0.1:11434</code></td>
+                <td class="spec-val">Loopback interface bindings; completely unreachable from external networks.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy and Security Deep Dive Section -->
+    <section class="section section-alt" id="privacy">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Security Guarantees</span>
+          <h2 class="section-title">Privacy &amp; Security Disclosure</h2>
+          <p class="section-description">
+            Honest, comprehensive transparency regarding what this public demonstration does, what the local engine guarantees, and what external limits exist.
+          </p>
+        </div>
+
+        <div class="privacy-grid">
+          <div class="privacy-card">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              Public Demo Privacy Boundaries
+            </h3>
+            <ul>
+              <li><strong>Zero Transmission:</strong> Visitor inputs into the interactive demo are processed purely in client-side JavaScript memory. No API or developer server receives them.</li>
+              <li><strong>Zero Client Storage:</strong> The demo does not use <code>localStorage</code>, <code>sessionStorage</code>, <code>IndexedDB</code>, or cookies to persist chats. Refreshing the browser instantly wipes state.</li>
+              <li><strong>Static Hosting Operational Metadata:</strong> Like any website on the internet, the static hosting provider (GitHub Pages) receives ordinary HTTP connection metadata (visitor IP address, User-Agent, referer) for logging and DDoS mitigation.</li>
+              <li><strong>Advisory:</strong> Because this is an open public demo, visitors should never enter confidential, sensitive, or proprietary data into online browser inputs.</li>
+            </ul>
+          </div>
+
+          <div class="privacy-card">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              Local Engine Air-Gap Guarantees
+            </h3>
+            <ul>
+              <li><strong>Physically Offline:</strong> The local Python server and Ollama backend run with Wi-Fi switched off or Ethernet unplugged.</li>
+              <li><strong>Strict Loopback Isolation:</strong> The backend binds exclusively to <code>127.0.0.1:8765</code> and rejects non-loopback Host or Origin headers.</li>
+              <li><strong>Zero Disk Writes:</strong> HTTP request logging is suppressed. Prompts, completions, and conversation history are never written to disk, SQLite, or log files.</li>
+              <li><strong>OS Reality Disclosure:</strong> The application does not claim to alter Windows OS swap files (<code>pagefile.sys</code>) or hibernation files (<code>hiberfil.sys</code>). For maximum security, running in an InPrivate browser window is recommended.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Limitations Section -->
+    <section class="section" id="limitations">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Engineering Honesty</span>
+          <h2 class="section-title">Technical Limitations</h2>
+          <p class="section-description">
+            Transparent disclosure of trade-offs between local lightweight models and commercial cloud platforms.
+          </p>
+        </div>
+
+        <div class="privacy-grid">
+          <div class="privacy-card">
+            <h4>Public Demo Limitations</h4>
+            <p>
+              The public demo cannot generate novel AI responses to arbitrary inputs. Responses are either matched against curated demonstration samples or routed to a transparent explanation explaining demo mode constraints.
+            </p>
+          </div>
+
+          <div class="privacy-card">
+            <h4>1.5B Parameter Model Scope</h4>
+            <p>
+              Qwen 2.5 1.5B is engineered for efficiency on modest hardware. While proficient at coding snippets, concise explanations, and standard queries, it cannot compete with 70B+ parameter models on multi-step philosophical nuance or complex mathematical proofs.
+            </p>
+          </div>
+
+          <div class="privacy-card">
+            <h4>Single-User Loopback Design</h4>
+            <p>
+              The application is intentionally single-user and local. It does not provide multi-tenant authentication, user accounts, or remote network access by design.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Run the Real Local Version Section -->
+    <section class="section section-alt" id="run-locally">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Step-by-Step Guide</span>
+          <h2 class="section-title">How to Run the Real Local Version</h2>
+          <p class="section-description">
+            Run the genuine offline AI application on your own Windows computer in 5 simple steps.
+          </p>
+        </div>
+
+        <div class="run-steps">
+          <div class="run-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Install Ollama on Windows</h3>
+              <p>Download and install Ollama for Windows from the official site. Verify installation in PowerShell:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header"><span>POWERSHELL</span></div>
+                <pre><code>ollama --version</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="run-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Pull the Quantized Qwen 2.5 Model</h3>
+              <p>Download the 1.5-billion parameter model (approx 986 MB):</p>
+              <div class="code-block-wrapper">
+                <div class="code-header"><span>POWERSHELL</span></div>
+                <pre><code>ollama pull qwen2.5:1.5b</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="run-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Start the Python Backend</h3>
+              <p>Navigate to the project directory and launch the standard library server:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header"><span>POWERSHELL</span></div>
+                <pre><code>python app.py</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="run-step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h3>Open the Local Web Interface</h3>
+              <p>Open an InPrivate / Incognito browser window and navigate to:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header"><span>BROWSER URL</span></div>
+                <pre><code>http://127.0.0.1:8765</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="run-step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h3>Verify 100% Offline Operation</h3>
+              <p>Disconnect Wi-Fi or unplug Ethernet. In PowerShell, test internet connectivity:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header"><span>POWERSHELL (WI-FI DISCONNECTED)</span></div>
+                <pre><code>Test-Connection 8.8.8.8 -Count 1 -Quiet
+# Returns: False (Proving zero network egress)</code></pre>
+              </div>
+              <p>Submit questions in the interface at <code>http://127.0.0.1:8765</code>. Tokens stream locally with zero network connection!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Source & Links Section -->
+    <section class="section" id="links">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Repository &amp; Documentation</span>
+          <h2 class="section-title">Project Source &amp; Links</h2>
+          <p class="section-description">
+            Repository placeholders for public deployment and code inspection.
+          </p>
+        </div>
+
+        <div class="repo-links-box">
+          <p>
+            To deploy this demo, upload the contents of the <code>public-demo/</code> folder to a dedicated public GitHub repository.
+          </p>
+
+          <div class="repo-links-grid">
+            <div class="repo-card">
+              <span class="placeholder-badge">Placeholder Link</span>
+              <h4>Public Demo Repository</h4>
+              <p>Contains the static showcase files (HTML, CSS, JS, documentation) hosted on GitHub Pages.</p>
+              <div class="code-block-wrapper">
+                <div class="code-header"><span>GITHUB REPOSITORY URL</span></div>
+                <pre><code>https://github.com/YOUR_GITHUB_USERNAME/private-offline-ai-demo</code></pre>
+              </div>
+            </div>
+
+            <div class="repo-card">
+              <span class="placeholder-badge">Placeholder Link</span>
+              <h4>Published GitHub Pages URL</h4>
+              <p>Live static website address where visitors can experience the simulated portfolio demo.</p>
+              <div class="code-block-wrapper">
+                <div class="code-header"><span>LIVE GITHUB PAGES URL</span></div>
+                <pre><code>https://YOUR_GITHUB_USERNAME.github.io/private-offline-ai-demo/</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p><strong>Private Offline AI &bull; Portfolio Project</strong></p>
+        <p>Static public demonstration hosted on GitHub Pages. Real AI inference executes exclusively on the developer's laptop.</p>
+      </div>
+
+      <ul class="footer-nav">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#run-locally">Run Locally</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
